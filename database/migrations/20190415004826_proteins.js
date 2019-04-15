@@ -1,7 +1,7 @@
 
 exports.up = function(knex) {
   return knex.schema.createTable('proteins', proteins => {
-    proteins.increments('id');
+    proteins.string('_id').unique().notNullable();
 
     proteins.json('fasta_seqs');
 
