@@ -19,7 +19,7 @@ module.exports = {
     seeds: {
       directory: './database/seeds'
     }
-  },
+  }, 
 
   testing: {
     client: 'sqlite3',
