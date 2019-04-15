@@ -59,3 +59,7 @@ typings/
 
 # next.js build output
 .next
+
+#local sqlite DBs
+test.db3
+dev.db3

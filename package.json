@@ -4,13 +4,14 @@
   "description": "Backend for Prescriptive Possibilities 2019 April 15-19",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "server": "nodemon index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/prescriptive-possibilities-april-15-19/prescriptive-backend.git"
   },
-  "author": "Jubilee",
+  "author": "Jubilee & Tigran",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/prescriptive-possibilities-april-15-19/prescriptive-backend/issues"
