@@ -5,7 +5,7 @@ module.exports = {
   update,
   remove,
   getAll,
-  findById,
+  findById
 };
 
 async function insert(hobbit) {
@@ -16,16 +16,30 @@ async function insert(hobbit) {
     .first();
 }
 
-async function update(id, changes) {
-  return null;
-}
+// async function update(test){
+//     const [lig_id] = await db('ligands').update(test);
+//     return db("ligands")
+//       .where({ lig_id })
+//       .update(test)
+
+// }
+
+function update(lig_id, changes){
+   // console.log('tuqhan:', changes)
+    return db("ligands")
+      .where({ lig_id })
+      .update(changes)
+      
+      //.then(_ => getAll());
+  };
+   
 
 function remove(id) {
   return null;
 }
 
 function getAll() {
-  return db('protein');
+  return db('ligands');
 }
 
 function findById(id) {
