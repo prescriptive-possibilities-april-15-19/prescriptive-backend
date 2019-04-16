@@ -1,10 +1,10 @@
+require('dotenv').config();
 const db = require('../database/dbConfig.js');
 
 module.exports = {
   insert,
   update,
   remove,
-  getAll,
   findById,
 };
 
@@ -22,10 +22,6 @@ async function update(id, changes) {
 
 function remove(id) {
   return null;
-}
-
-function getAll() {
-  return db('protein');
 }
 
 function findById(id) {
