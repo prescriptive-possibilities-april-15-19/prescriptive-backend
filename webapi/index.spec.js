@@ -11,6 +11,13 @@ describe('index.js', () => {
             expect(response.status).toBe(200);
           });
       });
+      it('should respond with 200 OK', () => {
+        return request(server)
+          .get('/sequences/sequences')
+          .then(response => {
+            expect(response.status).toBe(200);
+          });
+      });
  
     });
 });
