@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
+
 const Proteins = require('../database/')["Proteins"]
 
 const server = express();
