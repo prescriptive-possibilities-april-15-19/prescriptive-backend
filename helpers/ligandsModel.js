@@ -1,4 +1,3 @@
-require('dotenv').config();
 const db = require('../database/dbConfig.js');
 
 module.exports = {
