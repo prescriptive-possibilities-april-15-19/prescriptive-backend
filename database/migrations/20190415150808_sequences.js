@@ -4,7 +4,7 @@ exports.up = function(knex) {
     sequences.increments('seq_id')
       .primary();
 
-    sequences.string('sequence');
+    sequences.text('sequence');
   })
 };
 

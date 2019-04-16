@@ -6,7 +6,7 @@ exports.up = function(knex) {
 
     ligands.integer('PubChem CID');
 
-    ligands.string('SMILES');
+    ligands.text('SMILES');
   })
 };
 

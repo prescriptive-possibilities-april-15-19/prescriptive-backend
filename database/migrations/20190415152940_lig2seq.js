@@ -16,7 +16,7 @@ exports.up = function(knex, Promise) {
       .unsigned()
       .notNullable()
       .references('seq_id')
-      .inTable('ligands')
+      .inTable('sequences')
       .onDelete('CASCADE')
       .onUpdate('CASCADE');
   })
