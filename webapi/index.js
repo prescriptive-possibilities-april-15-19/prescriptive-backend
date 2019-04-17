@@ -2,14 +2,16 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 
-const Proteins = require('../database/')["Proteins"]
 const Ligands = require('../helpers/ligandsModel.js')
+const Sequences = require('./sequences.js');
 
 const server = express();
 
 server.use(helmet());
 server.use(cors());
 server.use(express.json());
+
+server.use('/sequences', Sequences);
 
 
 server.get('/', (req,res) => {
