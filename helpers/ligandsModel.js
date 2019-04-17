@@ -1,18 +1,17 @@
-const db = require('../database/dbConfig.js');
+const database = require('../database/dbConfig.js');
 
 module.exports = {
   insert,
   update,
   remove,
   findById,
+  searchSMILES
 };
 
-async function insert(hobbit) {
-  const [lig_id] = await db('ligands').insert(hobbit);
+async function insert(row) {
+  const [lig_id] = await database('ligands').insert(row);
 
-  return db('ligands')
-    .where({ lig_id })
-    .first();
+  return lig_id;
 }
 
 async function update(id, changes) {
@@ -23,6 +22,21 @@ function remove(id) {
   return null;
 }
 
-function findById(id) {
-  return null;
+async function findById(id) {
+
+  return database('ligands').where({ 'lig_id': id });
+}
+
+async function searchSMILES(query) {
+
+  if (typeof query !== 'string') {
+    return null;
+  } else if (query.length < 4) {
+    return null;
+  } else {
+
+    const matches = await database('ligands').select('*');
+
+    return matches ? matches : [];
+  }
 }

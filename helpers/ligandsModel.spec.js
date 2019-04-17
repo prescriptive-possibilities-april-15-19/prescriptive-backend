@@ -1,56 +1,108 @@
-const db = require('../database/dbConfig.js');
-const testModel = require('./testModel.js');
+const Ligands = require('./ligandsModel.js');
+const database = require('../database/dbConfig.js');
 
-// returns 201
-// insert the hobbit
-describe('test model', () => {
-//   beforeEach(async () => {
-//     await db('ligands').truncate(); 
-//   });
+  beforeAll(async () => {
+    await database('ligands').truncate()
+    await database.migrate.latest()
+      .then(function() {
+        return database.seed.run();
+      })
+  });
+
+
+it('should run in a test environment', () => {
+  expect(process.env.NODE_ENV).toEqual('test');
+});
+
+describe('table seeding', () => {
+
+  it('should have a few items from seeding the table', async () => {
+    let currTable = await database('ligands').select('*');
+
+    expect(currTable.length).toBeGreaterThan(2)
+  })
+
+  it('should have an item I put there', async () => {
+    let currTable = await database('ligands').select('*');
+
+    expect(currTable).toContainEqual({lig_id: 1, "PubChem CID": null, SMILES: "rowValue1"})
+  })
+});
+
+describe('searchSMILES', () => {
+
+  it('should refuse a non-entry', async () => {
+
+    const response = await Ligands.searchSMILES();
+
+    expect(response).toBe(null);
+  })
+
+  it('should refuse a string below the minimum length of 4', async () => {
+
+    const response = await Ligands.searchSMILES('tes');
+
+    expect(response).toBe(null);
+  })
+
+  it('should refuse an array, even if it has a length of 4', async () => {
+
+    const response = await Ligands.searchSMILES(['is','this','a','joke?']);
+
+    expect(response).toBe(null);
+  })
+
+  it('should return an array if the query is valid', async () => {
+
+    const response = await Ligands.searchSMILES('doom');
+
+    expect(response).toHaveProperty('length');
+  })
+
+
+
+  it('should return an array if it finds a partial match', async () => {
+
+    const joke = await Ligands.insert({ SMILES: 'joke' });
+
+    const response = await Ligands.searchSMILES('joke');
+
+    expect(response.length).toBeGreaterThan(0);
+  })
+
+});
 
   describe('insert()', () => {
     it('should insert the provided hobbits', async () => {
-      await testModel.insert({ SMILES: 'gaffer' });
-      await testModel.insert({ SMILES: 'aragorn' });
-      await testModel.insert({ SMILES: 'gandalf' });
+      const start = await database('ligands').select('*');
 
-      const result = await db('ligands'); 
-      expect(result).toHaveLength(3);
+      await Ligands.insert({ SMILES: 'gaffer' });
+      await Ligands.insert({ SMILES: 'aragorn' });
+      await Ligands.insert({ SMILES: 'gandalf' });
+      
+      const end = await database('ligands').select('*');
+
+      expect(start > end);
     });
 
-    it('should insert the provided hobbit', async () => {
-      let test = await testModel.insert({ SMILES: 'tazya' });
-      expect(test.SMILES).toBe('tazya');
+    it('should insert the provided item', async () => {
+      const test = await Ligands.insert({ SMILES: 'tazya' });
 
-      test = await testModel.insert({ SMILES: 'tazya' });
-      expect(test.SMILES).toBe('tazya');
+      expect(test).toBeTruthy();
     });
   });
   
-    describe("update()", () => {
-        // it("Updates the provided string as expected", async () => {
-        //   const test = await testModel.getAll({'SMILES': 'tazya'})
-        //   const updatedUser = await testModel.update(1, { 'SMILES': "tazya1" });
-        //   expect(updatedUser.SMILES).toBe("tazya1");
-        //   console.log('updated user:', updatedUser);
-        //   //expect(test.SMILES).not.toBe(updatedUser.SMILES);
-        // });
-    it("Does something at all on update, anything", async () => {
-        const updatedUser = await testModel.update(1, { 'SMILES': 'tazya1' });
-        expect(updatedUser).toBe(expect.anything())
-      });
- 
- 
+  // describe("update()", () => {
+  //       it("Updates the provided string as expected", async () => {
 
+  //         const updatedUser = await Ligands.update(1, { 'SMILES': "tazya1" });
 
+  //         expect(updatedUser.SMILES).toBe("tazya1");
 
-    // it("Updates the password as expected", async () => {
-    //   const test = await testModel.get({'u.id': 1})
-    //   const updatedUser = await testModel.update(1, { 
-    //     //password: bcrypt.hashSync('banana', 10) 
-    //   });
-    //   expect(bcrypt.compareSync('banana', updatedUser.password)).toBeTruthy()
-    //   expect(bcrypt.compareSync(user.password, updatedUser.password)).not.toBeTruthy();
-    // });
-  });
-});
+  //         //expect(test.SMILES).not.toBe(updatedUser.SMILES);
+  //       });
+  //   it("Does something at all on update, anything", async () => {
+  //       const updatedUser = await Ligands.update(1, { 'SMILES': 'tazya1' });
+  //       expect(updatedUser).toBe(expect.anything())
+  //     });
+  // });
