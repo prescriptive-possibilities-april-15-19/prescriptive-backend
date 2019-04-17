@@ -17,13 +17,13 @@ it('should run in a test environment', () => {
 describe('table seeding', () => {
 
   it('should have a few items from seeding the table', async () => {
-    let currTable = await database('ligands').select('*');
+    const currTable = await database('ligands').select('*');
 
     expect(currTable.length).toBeGreaterThan(2)
   })
 
   it('should have an item I put there', async () => {
-    let currTable = await database('ligands').select('*');
+    const currTable = await database('ligands').select('*');
 
     expect(currTable).toContainEqual({lig_id: 1, "PubChem CID": null, SMILES: "rowValue1"})
   })
@@ -32,28 +32,24 @@ describe('table seeding', () => {
 describe('searchSMILES', () => {
 
   it('should refuse a non-entry', async () => {
-
     const response = await Ligands.searchSMILES();
 
     expect(response).toBe(null);
   })
 
   it('should refuse a string below the minimum length of 4', async () => {
-
     const response = await Ligands.searchSMILES('tes');
 
     expect(response).toBe(null);
   })
 
   it('should refuse an array, even if it has a length of 4', async () => {
-
     const response = await Ligands.searchSMILES(['is','this','a','joke?']);
 
     expect(response).toBe(null);
   })
 
   it('should return an array if the query is valid', async () => {
-
     const response = await Ligands.searchSMILES('doom');
 
     expect(response).toHaveProperty('length');
@@ -62,9 +58,7 @@ describe('searchSMILES', () => {
 
 
   it('should return an array if it finds a partial match', async () => {
-
     const joke = await Ligands.insert({ SMILES: 'joke' });
-
     const response = await Ligands.searchSMILES('joke');
 
     expect(response.length).toBeGreaterThan(0);
@@ -79,7 +73,7 @@ describe('searchSMILES', () => {
       await Ligands.insert({ SMILES: 'gaffer' });
       await Ligands.insert({ SMILES: 'aragorn' });
       await Ligands.insert({ SMILES: 'gandalf' });
-      
+
       const end = await database('ligands').select('*');
 
       expect(start > end);

@@ -1,18 +1,18 @@
 const database = require('../database/dbConfig.js');
-const table = 'ligands';
+const table = 'sequences';
 
 module.exports = {
   insert,
   update,
   remove,
   findById,
-  searchSMILES
+  searchSequences
 };
 
 async function insert(row) {
-  const [lig_id] = await database(table).insert(row);
+  const [seq_id] = await database(table).insert(row);
 
-  return lig_id;
+  return seq_id;
 }
 
 async function update(id, changes) {
@@ -25,14 +25,13 @@ function remove(id) {
 
 async function findById(id) {
 
-  return database(table).where({ 'lig_id': id });
+  return database(table).where({ 'seq_id': id });
 }
 
-async function searchSMILES(query) {
-
+async function searchSequences(query) {
   if (typeof query !== 'string') {
     return null;
-  } else if (query.length < 4) {
+  } else if (query.length < 2) {
     return null;
   } else {
 
