@@ -4,7 +4,7 @@
   "description": "Backend for Prescriptive Possibilities 2019 April 15-19",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=testing jest --watch",
+    "test": "cross-env NODE_ENV=test jest --watch",
     "server": "nodemon index.js",
     "start": "node index.js"
   },
