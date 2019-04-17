@@ -12,10 +12,10 @@ router.get('/', async (req,res) => {
     try {
       const sequenceMatch = await Sequences.searchSequences(sequence);
 
-      if (sequenceMatch === []) {
+      if (sequenceMatch.length === 0) {
         res.status(404).json({ message: "No data found." });
       } else {
-        res.status(200).json({ ... sequenceMatch })
+        res.status(200).json({ ...sequenceMatch })
       }
 
     }
