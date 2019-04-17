@@ -34,9 +34,8 @@ async function searchSequences(query) {
   } else if (query.length < 2) {
     return null;
   } else {
+    const matches = await database(table).where('sequence', query);
 
-    const matches = await database(table).select('*');
-
-    return matches ? matches : [];
+    return matches;
   }
 }

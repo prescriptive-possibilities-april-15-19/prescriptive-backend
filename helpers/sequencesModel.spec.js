@@ -50,13 +50,11 @@ describe('searchSequences', () => {
     expect(response).toBe(null);
   })
 
-  it('should return an array if the query is valid', async () => {
-    const response = await Sequences.searchSequences('eh');
+  it('should return an empty array if the query is valid but not present', async () => {
+    const response = await Sequences.searchSequences('To be or not to be?');
 
-    expect(response).toHaveProperty('length');
+    expect(response).toEqual([])
   })
-
-
 
   it('should return an array if it finds a partial match', async () => {
     const joke = await Sequences.insert({ sequence: 'joke' });

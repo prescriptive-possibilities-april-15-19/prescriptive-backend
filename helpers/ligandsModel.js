@@ -35,9 +35,8 @@ async function searchSMILES(query) {
   } else if (query.length < 4) {
     return null;
   } else {
+    const matches = await database(table).where('SMILES', query);
 
-    const matches = await database(table).select('*');
-
-    return matches ? matches : [];
+    return matches;
   }
 }
