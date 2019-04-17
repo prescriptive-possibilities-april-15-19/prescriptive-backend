@@ -64,6 +64,13 @@ describe('searchSequences', () => {
 
     expect(response.length).toBeGreaterThan(0);
   })
+
+  it('should not return more than 10 items at a time, normally', async () => {
+
+    const response = await Sequences.searchSequences('rowV');
+
+    expect(response.length).toBeLessThan(11);
+  })
 });
 
 

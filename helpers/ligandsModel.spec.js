@@ -66,6 +66,13 @@ describe('searchSMILES', () => {
 
     expect(response.length).toBeGreaterThan(0);
   })
+
+  it('should not return more than 10 items at a time, normally', async () => {
+
+    const response = await Ligands.searchSMILES('rowV');
+
+    expect(response.length).toBeLessThan(11);
+  })
 });
 
 
