@@ -6,6 +6,7 @@ module.exports = {
   update,
   remove,
   findById,
+  getAll
 };
 
 async function insert(hobbit) {
@@ -26,4 +27,7 @@ function remove(id) {
 
 function findById(id) {
   return null;
+}
+function getAll() {
+  return db('ligands').where('SMILES');
 }
