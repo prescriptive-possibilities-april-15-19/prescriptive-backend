@@ -5,7 +5,7 @@ const table = 'sequences';
   beforeAll(async () => {
     await database(table).truncate()
     await database.migrate.latest()
-      .then(function() {
+      .then(() => {
         return database.seed.run();
       })
   });
@@ -57,8 +57,8 @@ describe('searchSequences', () => {
   })
 
   it('should return an array if it finds a partial match', async () => {
-    const joke = await Sequences.insert({ sequence: 'joke' });
-    const response = await Sequences.searchSequences('joke');
+
+    const response = await Sequences.searchSequences('rowV');
 
     expect(response.length).toBeGreaterThan(0);
   })

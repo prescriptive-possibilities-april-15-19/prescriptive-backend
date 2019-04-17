@@ -4,7 +4,7 @@ const database = require('../database/dbConfig.js');
   beforeAll(async () => {
     await database('ligands').truncate()
     await database.migrate.latest()
-      .then(function() {
+      .then(() => {
         return database.seed.run();
       })
   });
@@ -56,8 +56,8 @@ describe('searchSMILES', () => {
   })
 
   it('should return an array if it finds a partial match', async () => {
-    const joke = await Ligands.insert({ SMILES: 'joke' });
-    const response = await Ligands.searchSMILES('joke');
+
+    const response = await Ligands.searchSMILES('rowV');
 
     expect(response.length).toBeGreaterThan(0);
   })
