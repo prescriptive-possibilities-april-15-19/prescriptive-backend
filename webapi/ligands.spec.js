@@ -28,7 +28,7 @@ describe('/ligands', () => {
 
     it('should refuse a too-small search', async () => {
       const response = await request(server)
-        get('/ligands')
+        .get('/ligands')
         .set('SMILES', 'row')
         .set('Accept', 'application/json')
 
