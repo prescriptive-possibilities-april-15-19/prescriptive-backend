@@ -71,6 +71,13 @@ describe('searchSequences', () => {
 
     expect(response.length).toBeLessThan(11);
   })
+
+  it('should paginate for real', async () => {
+    const page1 = await Sequences.searchSequences('rowV');
+    const page2 = await Sequences.searchSequences('rowV', 1);
+
+    expect(page1).toEqual(expect.not.arrayContaining(page2));
+  })
 });
 
 

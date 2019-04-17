@@ -28,15 +28,13 @@ async function findById(id) {
   return database(table).where({ 'lig_id': id });
 }
 
-async function searchSMILES(query) {
+function searchSMILES(query, page=0) {
 
   if (typeof query !== 'string') {
     return null;
   } else if (query.length < 4) {
     return null;
   } else {
-    const matches = await database(table).where('SMILES', 'like', `%${query}%`);
-
-    return matches;
+    return database(table).where('SMILES', 'like', `%${query}%`).limit(10).offset(page*10);
   }
 }

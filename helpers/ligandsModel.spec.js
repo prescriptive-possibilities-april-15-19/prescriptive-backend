@@ -73,6 +73,13 @@ describe('searchSMILES', () => {
 
     expect(response.length).toBeLessThan(11);
   })
+
+  it('should paginate for real', async () => {
+    const page1 = await Ligands.searchSMILES('rowV');
+    const page2 = await Ligands.searchSMILES('rowV', 1);
+
+    expect(page1).toEqual(expect.not.arrayContaining(page2));
+  })
 });
 
 
