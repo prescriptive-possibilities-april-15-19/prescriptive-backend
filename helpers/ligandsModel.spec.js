@@ -1,33 +1,38 @@
 const Ligands = require('./ligandsModel.js');
 const database = require('../database/dbConfig.js');
+const table = 'ligands';
 
-  beforeAll(async () => {
-    await database('ligands').truncate()
-    await database.migrate.latest()
-      .then(() => {
-        return database.seed.run();
-      })
-  });
+beforeAll(async () => {
+  await database.migrate.latest()
+    .then(() => {
+      return database.seed.run();
+    })
+});
+
+afterAll(async () => {
+  await database(table).truncate();
+});
 
 
 it('should run in a test environment', () => {
   expect(process.env.NODE_ENV).toEqual('test');
 });
 
-describe('table seeding', () => {
 
+describe('table seeding', () => {
   it('should have a few items from seeding the table', async () => {
-    const currTable = await database('ligands').select('*');
+    const currTable = await database(table).select('*');
 
     expect(currTable.length).toBeGreaterThan(2)
   })
 
   it('should have an item I put there', async () => {
-    const currTable = await database('ligands').select('*');
+    const currTable = await database(table).select('*');
 
     expect(currTable).toContainEqual({lig_id: 1, "PubChem CID": null, SMILES: "rowValue1"})
   })
 });
+
 
 describe('searchSMILES', () => {
 
@@ -61,28 +66,28 @@ describe('searchSMILES', () => {
 
     expect(response.length).toBeGreaterThan(0);
   })
-
 });
 
-  describe('insert()', () => {
-    it('should insert the provided hobbits', async () => {
-      const start = await database('ligands').select('*');
 
-      await Ligands.insert({ SMILES: 'gaffer' });
-      await Ligands.insert({ SMILES: 'aragorn' });
-      await Ligands.insert({ SMILES: 'gandalf' });
+describe('insert()', () => {
+  it('should insert the provided hobbits', async () => {
+    const start = await database(table).select('*');
 
-      const end = await database('ligands').select('*');
+    await Ligands.insert({ SMILES: 'gaffer' });
+    await Ligands.insert({ SMILES: 'aragorn' });
+    await Ligands.insert({ SMILES: 'gandalf' });
 
-      expect(start > end);
-    });
+    const end = await database(table).select('*');
 
-    it('should insert the provided item', async () => {
-      const test = await Ligands.insert({ SMILES: 'tazya' });
-
-      expect(test).toBeTruthy();
-    });
+    expect(start > end);
   });
+
+  it('should insert the provided item', async () => {
+    const test = await Ligands.insert({ SMILES: 'tazya' });
+
+    expect(test).toBeTruthy();
+  });
+});
   
   // describe("update()", () => {
   //       it("Updates the provided string as expected", async () => {

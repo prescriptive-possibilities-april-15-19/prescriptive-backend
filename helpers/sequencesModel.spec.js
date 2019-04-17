@@ -2,25 +2,28 @@ const Sequences = require('./sequencesModel.js');
 const database = require('../database/dbConfig.js');
 const table = 'sequences';
 
-  beforeAll(async () => {
-    await database(table).truncate()
-    await database.migrate.latest()
-      .then(() => {
-        return database.seed.run();
-      })
-  });
+beforeAll(async () => {
+  await database.migrate.latest()
+    .then(() => {
+      return database.seed.run();
+    })
+});
+
+afterAll(async () => {
+  await database(table).truncate();
+});
 
 
 it('should run in a test environment', () => {
   expect(process.env.NODE_ENV).toEqual('test');
 });
 
-describe('table seeding', () => {
 
+describe('table seeding', () => {
   it('should have a few items from seeding the table', async () => {
     const currTable = await database(table).select('*');
 
-    expect(currTable.length).toBeGreaterThan(2)
+    expect(currTable.length).toBeGreaterThan(2);
   })
 
   it('should have an item I put there', async () => {
@@ -31,7 +34,6 @@ describe('table seeding', () => {
 });
 
 describe('searchSequences', () => {
-
   it('should refuse a non-entry', async () => {
     const response = await Sequences.searchSequences();
 
@@ -62,25 +64,25 @@ describe('searchSequences', () => {
 
     expect(response.length).toBeGreaterThan(0);
   })
-
 });
 
-  describe('insert()', () => {
-    it('should insert the provided hobbits', async () => {
-      const start = await database(table).select('*');
 
-      await Sequences.insert({ sequence: 'gaffer' });
-      await Sequences.insert({ sequence: 'aragorn' });
-      await Sequences.insert({ sequence: 'gandalf' });
-      
-      const end = await database(table).select('*');
+describe('insert()', () => {
+  it('should insert the provided hobbits', async () => {
+    const start = await database(table).select('*');
 
-      expect(start > end);
-    });
+    await Sequences.insert({ sequence: 'gaffer' });
+    await Sequences.insert({ sequence: 'aragorn' });
+    await Sequences.insert({ sequence: 'gandalf' });
+    
+    const end = await database(table).select('*');
 
-    it('should insert the provided item', async () => {
-      const test = await Sequences.insert({ sequence: 'tazya' });
-
-      expect(test).toBeTruthy();
-    });
+    expect(start > end);
   });
+
+  it('should insert the provided item', async () => {
+    const test = await Sequences.insert({ sequence: 'tazya' });
+
+    expect(test).toBeTruthy();
+  });
+});
