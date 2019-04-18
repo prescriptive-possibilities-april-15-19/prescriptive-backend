@@ -1,7 +1,7 @@
-<<<<<<< HEAD
+// <<<<<<< HEAD
     
-=======
->>>>>>> 96c033f3c0f53d90e5138dd7fc4edb4193d39beb
+// =======
+// >>>>>>> 96c033f3c0f53d90e5138dd7fc4edb4193d39beb
 const database = require('../database/dbConfig.js');
 const table = 'ligands';
 
