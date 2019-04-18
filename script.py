@@ -13,7 +13,7 @@ with open('dfs_PROTOTYPE.pickle', "rb") as d:
 seq_tfidf, lig_tfidf, bc = estimators
 ligs, seqs, binds = dfs
 
-def predict(ligid: int, seqid: int) -> float: 
+def predict(ligid, seqid): 
     one = seqid in binds[binds.lig==ligid].seq.values and ligid in binds[binds.seq==seqid].lig.values
     if one: 
         return 1
