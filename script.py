@@ -14,14 +14,14 @@ seq_tfidf, lig_tfidf, bc = estimators
 ligs, seqs, binds = dfs
 
 def predict(ligid: int, seqid: int) -> float: 
-
-    x = seq_tfidf.transform([seqs.iloc[6].sequence]).toarray()[0]
-
-    y = lig_tfidf.transform([ligs.iloc[789].SMILES]).toarray()[0]
-
-    xx = [list(x) + list(y)]
-
-    return bc.predict_proba(xx)[0][0]
+    one = seqid in binds[binds.lig==ligid].seq.values and ligid in binds[binds.seq==seqid].lig.values
+    if one: 
+        return 1
+    else: 
+        x = seq_tfidf.transform([seqs.iloc[ligid].sequence]).toarray()[0]
+        y = lig_tfidf.transform([ligs.iloc[seqid].SMILES]).toarray()[0]
+        xx = [list(x) + list(y)]
+        return bc.predict_proba(xx)[0][0]
 
 print(predict(ligid, seqid))
 sys.stdout.flush()
