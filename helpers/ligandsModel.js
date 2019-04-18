@@ -1,7 +1,3 @@
-// <<<<<<< HEAD
-    
-// =======
-// >>>>>>> 96c033f3c0f53d90e5138dd7fc4edb4193d39beb
 const database = require('../database/dbConfig.js');
 const table = 'ligands';
 
@@ -27,12 +23,11 @@ function remove(id) {
   return null;
 }
 
-async function findById(id) {
-
+function findById(id) {
   return database(table).where({ 'lig_id': id });
 }
 
-async function searchSMILES(query) {
+function searchSMILES(query, page=0) {
 
   if (typeof query !== 'string') {
     return null;

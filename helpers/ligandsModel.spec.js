@@ -2,17 +2,25 @@ const Ligands = require('./ligandsModel.js');
 const database = require('../database/dbConfig.js');
 const table = 'ligands';
 
+<<<<<<< HEAD
 beforeAll(async () => {
   await database.migrate.latest()
+=======
+beforeAll(() => {
+  return database.migrate.latest()
+>>>>>>> 0405c843913bad1232ef885732e53a7afd2ffd8c
     .then(() => {
       return database.seed.run();
     })
 });
 
+<<<<<<< HEAD
 afterAll(async () => {
   await database(table).truncate();
 });
 
+=======
+>>>>>>> 0405c843913bad1232ef885732e53a7afd2ffd8c
 
 it('should run in a test environment', () => {
   expect(process.env.NODE_ENV).toEqual('test');
@@ -66,6 +74,23 @@ describe('searchSMILES', () => {
 
     expect(response.length).toBeGreaterThan(0);
   })
+<<<<<<< HEAD
+=======
+
+  it('should not return more than 10 items at a time, normally', async () => {
+
+    const response = await Ligands.searchSMILES('rowV');
+
+    expect(response.length).toBeLessThan(11);
+  })
+
+  it('should paginate for real', async () => {
+    const page1 = await Ligands.searchSMILES('rowV');
+    const page2 = await Ligands.searchSMILES('rowV', 1);
+
+    expect(page1).toEqual(expect.not.arrayContaining(page2));
+  })
+>>>>>>> 0405c843913bad1232ef885732e53a7afd2ffd8c
 });
 
 

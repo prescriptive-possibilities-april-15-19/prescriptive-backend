@@ -11,6 +11,9 @@ server.use(helmet());
 server.use(cors());
 server.use(express.json());
 
+server.use('/sequences', sequencesRouter);
+server.use('/ligands', ligandsRouter);
+
 
 server.get('/', (req,res) => {
   res.status(200).json({ 
