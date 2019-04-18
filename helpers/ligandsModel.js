@@ -34,8 +34,8 @@ function searchSMILES(query, page=0) {
   } else if (query.length < 4) {
     return null;
   } else {
-    return database(table)
-      .where('SMILES', 'like', `%${query}%`)
-      .limit(10).offset(page*10);
+    const matches = await database(table).where('SMILES', 'like', `%${query}%`);
+
+    return matches;
   }
 }
