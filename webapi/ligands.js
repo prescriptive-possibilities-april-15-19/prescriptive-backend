@@ -5,7 +5,7 @@ const router = require('express').Router();
 router.get('/', async (req,res) => {
   const { smiles, seq_id, lig_id } = req.headers;
 
-  if (!smiles || lig_id === undefined) /* || !req.headers["PubChem CID"] */ {
+  if (!smiles && lig_id === undefined) /* || !req.headers["PubChem CID"] */ {
     res.status(400).json({ message: "Invalid query, no query input provided." });
   } else if (lig_id !== undefined) {
     try {
