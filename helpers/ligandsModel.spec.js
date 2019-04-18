@@ -2,15 +2,11 @@ const Ligands = require('./ligandsModel.js');
 const database = require('../database/dbConfig.js');
 const table = 'ligands';
 
-beforeAll(async () => {
-  await database.migrate.latest()
+beforeAll(() => {
+  return database.migrate.latest()
     .then(() => {
       return database.seed.run();
     })
-});
-
-afterAll(async () => {
-  await database(table).truncate();
 });
 
 
