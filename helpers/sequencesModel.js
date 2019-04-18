@@ -34,6 +34,8 @@ function searchSequences(query, page=0) {
   } else if (query.length < 2) {
     return null;
   } else {
-    return database(table).where('sequence', 'like', `%${query}%`).limit(10).offset(page*10);
+    return database(table)
+      .where('sequence', 'like', `%${query}%`)
+      .limit(10).offset(page*10);
   }
 }

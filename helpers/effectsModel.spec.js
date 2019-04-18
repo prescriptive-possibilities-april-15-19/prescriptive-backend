@@ -56,15 +56,16 @@ describe('searchByFK', () => {
   });
 
   it('should return a prediction value in ideal cases', async () => {
-    const results = await Effects.searchByFK({ lig_id: 1, seq_id: 1 });
+    const result = await Effects.searchByFK({ lig_id: 1, seq_id: 1 });
 
-    expect(results[0]).toHaveProperty('bind_chance');
+    expect(result[0]).toHaveProperty('bind_chance');
   });
 
-  it('mite be cool if it returns a nest if I have a specific effect_id', async () => {
-    const results = await Effects.searchByFK({ effect_id: 2 });
+  it('might be cool if it returns a multi-join if I have a specific effect_id', async () => {
+    const result = await Effects.searchByFK({ effect_id: 2 });
 
-    expect(results[0]).toHaveProperty('bind_chance');
+    expect(result[0]).toHaveProperty('SMILES');
+    expect(result[0]).toHaveProperty('sequence');
   });
 
   // it('should handle errors', async () => {

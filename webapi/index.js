@@ -2,8 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 
-const Ligands = require('../helpers/ligandsModel.js')
-const Sequences = require('./sequences.js');
+const ligandsRouter = require('./ligands.js');
+const sequencesRouter = require('./sequences.js');
 
 const server = express();
 
@@ -11,7 +11,8 @@ server.use(helmet());
 server.use(cors());
 server.use(express.json());
 
-server.use('/sequences', Sequences);
+server.use('/sequences', sequencesRouter);
+server.use('/ligands', ligandsRouter);
 
 
 server.get('/', (req,res) => {
@@ -21,13 +22,13 @@ server.get('/', (req,res) => {
 })
 
 // *** GET Endpoints for ligands, sequences tables: *** 
-server.get('/ligands/smiles', async (req, res) => {
-  const verifyString = req.headers
-  const rows = await Ligands.searchSMILES(verifyString === 4);
+// server.get('/ligands/smiles', async (req, res) => {
+//   const verifyString = req.headers
+//   const rows = await Ligands.searchSMILES(verifyString === 4);
 
 
-  res.status(200).json(rows);
-});
+//   res.status(200).json(rows);
+// });
 
 // server.post('/ligands/smiles', (req,res) => {
 //   const body = req.body;

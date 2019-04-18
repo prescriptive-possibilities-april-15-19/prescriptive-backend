@@ -23,8 +23,7 @@ function remove(id) {
   return null;
 }
 
-async function findById(id) {
-
+function findById(id) {
   return database(table).where({ 'lig_id': id });
 }
 
@@ -35,6 +34,8 @@ function searchSMILES(query, page=0) {
   } else if (query.length < 4) {
     return null;
   } else {
-    return database(table).where('SMILES', 'like', `%${query}%`).limit(10).offset(page*10);
+    return database(table)
+      .where('SMILES', 'like', `%${query}%`)
+      .limit(10).offset(page*10);
   }
 }
