@@ -28,14 +28,14 @@ async function findById(id) {
   return database(table).where({ 'seq_id': id });
 }
 
-async function searchSequences(query) {
+function searchSequences(query, page=0) {
   if (typeof query !== 'string') {
     return null;
   } else if (query.length < 2) {
     return null;
   } else {
-    const matches = await database(table).where('sequence', 'like', `%${query}%`);
-
-    return matches;
+    return database(table)
+      .where('sequence', 'like', `%${query}%`)
+      .limit(10).offset(page*10);
   }
 }

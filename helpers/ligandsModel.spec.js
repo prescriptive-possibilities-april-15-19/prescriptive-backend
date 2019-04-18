@@ -2,15 +2,11 @@ const Ligands = require('./ligandsModel.js');
 const database = require('../database/dbConfig.js');
 const table = 'ligands';
 
-beforeAll(async () => {
-  await database.migrate.latest()
+beforeAll(() => {
+  return database.migrate.latest()
     .then(() => {
       return database.seed.run();
     })
-});
-
-afterAll(async () => {
-  await database(table).truncate();
 });
 
 
@@ -65,6 +61,20 @@ describe('searchSMILES', () => {
     const response = await Ligands.searchSMILES('rowV');
 
     expect(response.length).toBeGreaterThan(0);
+  })
+
+  it('should not return more than 10 items at a time, normally', async () => {
+
+    const response = await Ligands.searchSMILES('rowV');
+
+    expect(response.length).toBeLessThan(11);
+  })
+
+  it('should paginate for real', async () => {
+    const page1 = await Ligands.searchSMILES('rowV');
+    const page2 = await Ligands.searchSMILES('rowV', 1);
+
+    expect(page1).toEqual(expect.not.arrayContaining(page2));
   })
 });
 
