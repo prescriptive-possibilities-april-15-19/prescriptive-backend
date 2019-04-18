@@ -63,3 +63,6 @@ typings/
 #local sqlite DBs
 test.db3
 dev.db3
+
+# mypy
+.mypy_cache/

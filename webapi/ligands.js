@@ -1,14 +1,25 @@
 const Ligands = require('../helpers/ligandsModel.js');
+const Effects = require('../helpers/effectsModel.js');
 const router = require('express').Router();
 
 router.get('/', async (req,res) => {
-  const { smiles } = req.headers;
-  console.log(req.headers);
-  // const CID = req.headers["PubChem CID"]
+  const { smiles, seq_id, lig_id } = req.headers;
 
-
-  if (!smiles /* || !req.headers["PubChem CID"] */) {
+  if (!smiles || lig_id === undefined) /* || !req.headers["PubChem CID"] */ {
     res.status(400).json({ message: "Invalid query, no query input provided." });
+  } else if (lig_id !== undefined) {
+    try {
+      const knownEffects = await Effects.searchByFK({ seq_id, lig_id });
+  
+      if (knownEffects.length === 0) {
+        res.status(404).json({ message: "No data found." });
+      } else {
+        res.status(200).json({ data: [...knownEffects] })
+      }
+    } catch(error) {
+      res.status(500).json({ message: "Database inaccessible." })
+    }
+             
   } else if (smiles.length <4) {
     res.status(400).json({ message: "Insufficient data to find matches. Please provide more input." });
   } else {
@@ -21,8 +32,7 @@ router.get('/', async (req,res) => {
         res.status(200).json({ data: [...moreSMILES] })
       }
 
-    }
-    catch(error) {
+    } catch(error) {
       res.status(500).json({ message: "Database inaccessible." })
     }
   }

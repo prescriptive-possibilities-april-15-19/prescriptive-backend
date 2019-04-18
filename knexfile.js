@@ -42,9 +42,7 @@ module.exports = {
 
   staging: {
     client: 'pg',
-    connection: {
-      database: process.env.DATABASE_URL
-    },
+    connection: process.env.DATABASE_URL,
     ssl: true,
     pool: {
       min: 2,
