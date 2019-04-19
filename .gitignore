@@ -66,3 +66,4 @@ dev.db3
 
 # mypy
 .mypy_cache/
+*.pickle
