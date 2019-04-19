@@ -2,10 +2,12 @@ const Effects = require('../helpers/effectsModel.js');
 const router = require('express').Router();
 
 router.post('/update/', async (req,res) => {
-  const { effect_id, bind chance } = req.body;
+  const { effect_id, bind_chance } = req.body;
 
   try {
-    await Effects.updateBindChance({})
+    const effect = await Effects.updateBindChance(effect_id, bind_chance);
+
+    res.status(200).json({ message: "Cool!" })
   } catch(error) {
     res.status(500).json({ message: "Broke on my end." })
   }
