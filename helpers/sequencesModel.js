@@ -24,7 +24,6 @@ function remove(id) {
 }
 
 async function findById(id) {
-
   return database(table).where({ 'seq_id': id });
 }
 
@@ -34,8 +33,21 @@ function searchSequences(query, page=0) {
   } else if (query.length < 2) {
     return null;
   } else {
+    
     return database(table)
       .where('sequence', 'like', `%${query}%`)
       .limit(10).offset(page*10);
+  }
+}
+
+function exactSequence(query) {
+  if (typeof query !== 'string') {
+    return null;
+  } else if (query.length < 4) {
+    return null;
+  } else {
+
+    return database(table)
+      .where('sequence', query)
   }
 }
