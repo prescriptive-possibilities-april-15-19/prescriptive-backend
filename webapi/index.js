@@ -4,6 +4,9 @@ const helmet = require('helmet');
 
 const ligandsRouter = require('./ligands.js');
 const sequencesRouter = require('./sequences.js');
+const predictionsRouter = require('./predictionsRouter.js');
+const authenticateRouter = require('./authenticateRouter.js');
+const authorization = require('./authorization.js');
 
 const server = express();
 
@@ -13,6 +16,8 @@ server.use(express.json());
 
 server.use('/sequences', sequencesRouter);
 server.use('/ligands', ligandsRouter);
+server.use('/auth', authenticateRouter);
+server.use('/predictions', authorization, predictionsRouter);
 
 
 server.get('/', (req,res) => {
@@ -46,15 +51,15 @@ server.get('/', (req,res) => {
 // })
 
 
-server.post('/', async (req,res) => {
-  const protein = req.body;
+// server.post('/', async (req,res) => {
+//   const protein = req.body;
 
-  if (!req.body["_id"]) {
-    res.status(400).json({ message: "No." })
-  } else {
-    const newProtein = await Proteins.insert(protein);
-    res.status(200).json(newProtein[0])
-  }
-})
+//   if (!req.body["_id"]) {
+//     res.status(400).json({ message: "No." })
+//   } else {
+//     const newProtein = await Proteins.insert(protein);
+//     res.status(200).json(newProtein[0])
+//   }
+// })
 
 module.exports = server;

@@ -1,9 +1,10 @@
 const Sequences = require('../helpers/sequencesModel.js');
 const Effects = require('../helpers/effectsModel.js');
+const axios = require('axios');
 const router = require('express').Router();
 
 router.get('/', async (req,res) => {
-  const { sequence, seq_id, lig_id } = req.headers;
+  const { sequence, seq_id, lig_id, page, exact } = req.headers;
 
   if (!sequence && seq_id === undefined) {
     res.status(400).json({ message: "Invalid query, no query input provided." });
@@ -22,9 +23,25 @@ router.get('/', async (req,res) => {
 
   } else if (sequence.length <2) {
     res.status(400).json({ message: "Insufficient data to find matches. Please provide more input." });
+  } else if (exact === true) {
+    try {
+      const exactSequence = await Ligands.exactSequence(sequence);
+
+      if (knownEffects.length === 0 && seq_id && lig_id) {
+        // axios.post()
+        res.status(202).json({ message: "Getting prediction." })
+      } else (exactSequence.length === 0) {
+        res.status(404).json({ message: "No data found." });
+      } else {
+        res.status(200).json({ data: [...exactSequence] })
+      }
+    } catch(error) {
+      res.status(500).json({ message: "Database inaccessible." })
+    }
+
   } else {
     try {
-      const sequenceMatch = await Sequences.searchSequences(sequence);
+      const sequenceMatch = await Sequences.searchSequences(sequence, page);
 
       if (sequenceMatch.length === 0) {
         res.status(404).json({ message: "No data found." });
