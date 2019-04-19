@@ -23,7 +23,7 @@ describe('table seeding', () => {
   it('should have an item I put there', async () => {
     const currTable = await database(table).select('*');
 
-    expect(currTable).toContainEqual({effect_id: 1, lig_id: 1, seq_id: 1})
+    expect(currTable).toContainEqual({effect_id: 1, lig_id: 1, seq_id: 1, bind_chance: null})
   })
 });
 

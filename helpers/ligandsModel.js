@@ -28,14 +28,26 @@ function findById(id) {
 }
 
 function searchSMILES(query, page=0) {
-
   if (typeof query !== 'string') {
     return null;
   } else if (query.length < 4) {
     return null;
   } else {
+
     return database(table)
       .where('SMILES', 'like', `%${query}%`)
       .limit(10).offset(page*10);
+  }
+}
+
+function exactSMILES(query) {
+  if (typeof query !== 'string') {
+    return null;
+  } else if (query.length < 4) {
+    return null;
+  } else {
+    
+    return database(table)
+      .where('SMILES', query)
   }
 }
