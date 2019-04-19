@@ -56,4 +56,4 @@ The `name` must be unique, but the `password` can be anything. It will be hashed
   
 Successful login issues a JSON web token.
 
-/predictions endpoint requires mounting this token in the headers.
+/predictions endpoint requires mounting this token in the headers. This endpoint aaccepts an `effect_id` which identifies a `lig_id`, `seq_id` pair, and a `bind_chance` float, which updates the appropriate fields on `lig2seq`.
