@@ -30,7 +30,7 @@ router.get('/', async (req,res) => {
       if (knownEffects.length === 0 && seq_id && lig_id) {
         // axios.post()
         res.status(202).json({ message: "Getting prediction." })
-      } else (exactSequence.length === 0) {
+      } else if (exactSequence.length === 0) {
         res.status(404).json({ message: "No data found." });
       } else {
         res.status(200).json({ data: [...exactSequence] })
